@@ -1,36 +1,59 @@
 
 function calcularISR(salarioMensual) {
-  const salarioAnual = salarioMensual * 12;
+  let  salarioAnual = salarioMensual * 12;
 
-  if (salarioAnual < 416220.00) {
+ 
+
+      const primer_umbral =416220.00;
+      const segundo_umbral =624329.00;
+      const tercero_umbral =867123.00;
+
+      let resultado_pago;
+
+
+  if (salarioAnual <= 416220.00) {
       alert('salario exento de impuesto')
   }
-  else{
-      // Define las tasas y los umbrales de la tabla de escalas
-      const tasas = [0.15, 0.20, 0.25];
-      const umbrales = [416220.00, 624329.00, 867123.00];
+  //primer caso
+  else if ( salarioAnual > 416220.00 && salarioAnual <= 624329.00) {
+    exedente=  salarioAnual - 416220.00  
+    aplicar_impuesto= exedente * 0.15
+     impuesto = aplicar_impuesto / 12
 
-      // Inicializa el impuesto a cero
-      let impuestoAnual = 0;
+    document.getElementById('resultado').innerText= impuesto.toFixed(2)
+  }
+  //segundo caso 
+  else if (salarioAnual > 624329.00 && salarioAnual <= 867123.00) {
+    exedente=  salarioAnual - 624329.00
+    exedente_segundo_caso=   salarioAnual- 624329.00
 
-      // Calcula el impuesto escalonado
-      for (let i = 0; i < tasas.length; i++) {
-        if (salarioAnual > umbrales[i]) {
-          impuestoAnual += (umbrales[i] - (i === 0 ? 0 : umbrales[i - 1])) * tasas[i];
-        } else {
-          impuestoAnual += (salarioAnual - (i === 0 ? 0 : umbrales[i - 1])) * tasas[i];
-          break; // Sale del bucle porque se ha aplicado la tasa correspondiente
-        }
-      }
+    primera_aplicacion= exedente * 0.15
+    segunda_aplicacion=  exedente_segundo_caso * 0.20
 
-      // Divide el impuesto anual por 12 para obtener el impuesto mensual
-      const impuestoMensual = impuestoAnual / 12;
+    resultado_pago= primera_aplicacion + segunda_aplicacion
 
-      return impuestoMensual;
+    impuesto = resultado_pago / 12
+    document.getElementById('resultado').innerText= impuesto.toFixed(2)
+    
+  }else if (salarioAnual > 867123.00) {
+    exedente=  salarioAnual - 624329.00
+    exedente_segundo_caso=   salarioAnual- 624329.00
+    tercer_exedente= salarioAnual - 867123.00
+
+    primera_aplicacion= exedente * 0.15
+    segunda_aplicacion=  exedente_segundo_caso * 0.20
+    tercera_aplicacion= tercer_exedente* 0.25
+
+    resultado_pago= primera_aplicacion + segunda_aplicacion + tercera_aplicacion
+
+    impuesto=resultado_pago / 12
+    
+    document.getElementById('resultado').innerText=   impuesto.toFixed(2)
+
   }
   
-  
 }
+  
 
 
 
@@ -40,8 +63,7 @@ function calcularISR(salarioMensual) {
     let salarioMensual=parseInt(salario.value)
     
     if (salario.value != '') {
-      const impuestoMensual = calcularISR(salarioMensual);
-      document.getElementById("resultado").innerHTML=`${impuestoMensual.toFixed(2)}`
+       calcularISR(salarioMensual);
     }else{
         alert("Ingrese un valor")   
     }
